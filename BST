@@ -1,0 +1,93 @@
+Implement Binary Search Tree (Insertion &amp; searching)
+
+#include <stdio.h>;
+#include <stdlib.h>;
+
+struct node
+{
+int data;
+struct node *right_child; // right child
+struct node *left_child; // left child
+};
+
+struct node* search(struct node *root, int x)
+{
+if(root==NULL || root-&gt;data==x) //if root-&gt;data is x then the element is
+found
+return root;
+else if(x&gt;root-&gt;data) // x is greater, so we will search the right subtree
+return search(root-&gt;right_child, x);
+else //x is smaller than the data, so we will search the left subtree
+return search(root-&gt;left_child,x);
+}
+
+//function to find the minimum value in a node
+struct node* find_minimum(struct node *root)
+{
+if(root == NULL)
+return NULL;
+else if(root-&gt;left_child != NULL) // node with minimum value will have no left
+child
+return find_minimum(root-&gt;left_child); // left most element will be
+minimum
+return root;
+}
+
+//function to create a node
+struct node* new_node(int x)
+{
+struct node *p;
+p = malloc(sizeof(struct node));
+p-&gt;data = x;
+p-&gt;left_child = NULL;
+p-&gt;right_child = NULL;
+
+return p;
+}
+
+struct node* insert(struct node *root, int x)
+{
+//searching for the place to insert
+
+if(root==NULL)
+return new_node(x);
+else if(x&gt;root-&gt;data) // x is greater. Should be inserted to right
+root-&gt;right_child = insert(root-&gt;right_child, x);
+else // x is smaller should be inserted to left
+root-&gt;left_child = insert(root-&gt;left_child,x);
+return root;
+}
+
+void inorder(struct node *root)
+{
+if(root!=NULL) // checking if the root is not null
+{
+inorder(root-&gt;left_child); // visiting left child
+printf(&quot; %d &quot;, root-&gt;data); // printing data at root
+inorder(root-&gt;right_child);// visiting right child
+}
+}
+int main()
+{
+
+struct node *root;
+root = new_node(20);
+insert(root,5);
+insert(root,1);
+insert(root,15);
+
+insert(root,9);
+insert(root,7);
+insert(root,12);
+insert(root,30);
+insert(root,25);
+insert(root,40);
+insert(root, 45);
+insert(root, 42);
+
+inorder(root);
+printf(&quot;\n&quot;);
+root=insert(root,21);
+inorder(root);
+printf(&quot;\n&quot;);
+}
